@@ -9,16 +9,7 @@ from werkzeug.utils import secure_filename
 
 
 
-
-
-
-
-
-
-
-
-
-UPLOAD_FOLDER = 'C:/Users/rutvik/'
+UPLOAD_FOLDER = ' '
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
