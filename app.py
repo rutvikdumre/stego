@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 
 
-UPLOAD_FOLDER = ' '
+UPLOAD_FOLDER = 'e:\\Stego\\'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
@@ -22,21 +22,13 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return 'No file part'
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return 'No selected file'
-        if file and allowed_file(file.filename):
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],'download.jpg'))
-            if request.form['go']=='encrypt':
-                return redirect(url_for('image'))
-            return redirect(url_for('decode1'))
+        
+        file = Image.open(UPLOAD_FOLDER+'download.jpg')
+        
+        
+        if request.form['go']=='encrypt':
+            return redirect(url_for('image'))
+        return redirect(url_for('decode1'))
     return render_template('index.html')
 
 @app.route('/image', methods=['GET', 'POST'])
