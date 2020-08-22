@@ -141,9 +141,9 @@ def decrypt(img):
     
 
     
-'''image1 = Image.open('download.jpg')
+'''image1 = Image.open('q.png')
 x=encode(image1, input())
 x.show()
 x.convert('RGB').save('new1.png')
-img=Image.open('new1.png')
+img=Image.open('q.png')
 print(decrypt(img))'''
