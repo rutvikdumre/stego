@@ -1,10 +1,56 @@
-from flask import Flask
+from Backend import encode, decrypt
+import os
+from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template,send_file
+from werkzeug.utils import secure_filename
+from PIL import Image
+
+
+UPLOAD_FOLDER = 'C:/Users/rutvik/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return 'No file part'
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return 'No selected file'
+        if file and allowed_file(file.filename):
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'],'download.jpg'))
+            if request.form['go']=='encrypt':
+                return redirect(url_for('image'))
+            return redirect(url_for('decode'))
+    return render_template('index.html')
+
+@app.route('/image', methods=['GET', 'POST'])
+def image():
+    if request.method == 'POST':
+        image1 = Image.open(UPLOAD_FOLDER+'download.jpg')
+        msg=request.form['msg']
+        x=encode(image1, msg)
+        x.convert('RGB').save(UPLOAD_FOLDER+'new1.png')
+        return send_file(UPLOAD_FOLDER+'new1.png', as_attachment=True)
+    return render_template('encodepage.html')
 
 
-@app.route('/')
-def hello():
-    return "Hello World!"
+@app.route('/decode')
+def decode():
+    image1 = Image.open('download.jpg')
+    msg1= decrypt(image1)
+    return render_template('rutwik.html',msg=msg1)
 
 if __name__ == '__main__':
-    app.run()
+   app.run(debug = True)

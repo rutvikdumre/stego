@@ -1,0 +1,30 @@
+<html class="content">
+    <div class="content">
+        <a href="/"><img src="{{url_for('static', filename='wwlogo.PNG')}}" alt="momo" class="image"></a> <!-- Image as hyperlink -->
+    </div>
+    <div id="message">
+        <p>"{{msg}}"</p>
+    </div>
+
+</html>
+
+<style>
+    .image{
+        height: 40%;
+    }
+    .content {
+        list-style-position: inside;
+        text-align: center;
+        margin: auto;
+        align-self: center;
+        font-family: Charcoal, sans-serif;
+        background-color: #262626;
+
+    }
+    #message{
+        color: white;
+        font-size: 150%;
+        font-weight: bold;
+        font-family: Sans-serif;
+    }
+</style>
