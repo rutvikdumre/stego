@@ -1,4 +1,4 @@
-import numpy
+import numpy 
 from numpy import asarray
 from PIL import Image,ImageOps
 
@@ -70,7 +70,7 @@ def encode(image1,msg):
     image_arr=numpy.array(arr)
     #print(image_arr)
 
-    image_arr2=Image.fromarray(image_arr)
+    image_arr2=Image.fromarray((image_arr).astype(numpy.uint8))
     #image_arr2=image_arr2.save('imgdemo.png')
     #image_arr2.show()
     return image_arr2
