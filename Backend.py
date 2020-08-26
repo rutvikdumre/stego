@@ -39,6 +39,7 @@ def encode(image1,msg):
     image1 = image1.resize((mywidth,hsize))
     
     r,c=image1.size[0],image1.size[1]
+    #print(r,c)
     image2=ImageOps.grayscale(image1)
     #print(image2.size)
     data=asarray(image2)
@@ -57,12 +58,18 @@ def encode(image1,msg):
     x=str(x)
     #print(x)
     arr = data1
+    #print(len(data1))
     ctr=0
-    for i in range(r):
-        for j in range(c):
+    for i in range(c-1):
+        for j in range(r-1):
             if ctr<len(x):
-                arr[i][j]=hide(data1[i][j],x[ctr])
-                ctr+=1
+                try:
+                    arr[i][j]=hide(data1[i][j],x[ctr])
+                    ctr+=1
+                except:
+                    print(i,j)
+                    break
+               
 
 
     #print(arr)
@@ -92,10 +99,10 @@ def decode(img):
     ctr=0
     flag= 'encrypted'
     
-    for i in range(r):
+    for i in range(c-1):
         if flag!='encrypted':
             break
-        for j in range(c):
+        for j in range(r-1):
             if c<n:
                 if data1[i][j]!= int(y[ctr]):
                     flag='not enc'
@@ -112,13 +119,16 @@ def decode(img):
         y=''
         for i in '$$$':
             y+=format(ord(i), '08b')
-        for i in range(r):
-            for j in range(c):
-                if y in output:
-                    flag=True
-                    break
-                else:
-                    output+=unhide(data1[i][j])
+        for i in range(c-1):
+            for j in range(r-1):
+                try:
+                    if y in output:
+                        flag=True
+                        break
+                    else:
+                        output+=unhide(data1[i][j])
+                except:
+                    print(i,j)
         
         #print(output)
 
@@ -145,5 +155,5 @@ def decrypt(img):
 x=encode(image1, input())
 x.show()
 x.convert('RGB').save('new1.png')
-img=Image.open('q.png')
+img=Image.open('new1.png')
 print(decrypt(img))'''
