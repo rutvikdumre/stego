@@ -86,64 +86,66 @@ def encode(image1,msg):
 
 
 def decode(img):
-
-    r,c=img.size[0],img.size[1]
-    data=asarray(img)
-    data1=data.tolist()
-    #print(r,c)
-    output=''
-    y=''
-    for i in 'wearempstmemomoteam':
-        y+=format(ord(i), '08b')
-    n=len(y)
-    ctr=0
-    flag= 'encrypted'
-    
-    for i in range(c-1):
-        if flag!='encrypted':
-            break
-        for j in range(r-1):
-            if c<n:
-                if data1[i][j]!= int(y[ctr]):
-                    flag='not enc'
-                    break
-            elif ctr==n:
-                flag='enc'
-                break
-            
-            ctr+=1
-            
-
-    if(flag=='encrypted' or flag=='enc'):
-        #print(output)
+    if(img.size[0]==256 or img.size[1]==256):
+        r,c=img.size[0],img.size[1]
+        data=asarray(img)
+        data1=data.tolist()
+        #print(r,c)
+        output=''
         y=''
-        for i in '$$$':
+        for i in 'wearempstmemomoteam':
             y+=format(ord(i), '08b')
-        for i in range(c-1):
-            for j in range(r-1):
-                try:
-                    if y in output:
-                        flag=True
-                        break
-                    else:
-                        output+=unhide(data1[i][j])
-                except:
-                    print(i,j)
+        n=len(y)
+        ctr=0
+        flag= 'encrypted'
         
-        #print(output)
+        for i in range(c-1):
+            if flag!='encrypted':
+                break
+            for j in range(r-1):
+                if c<n:
+                    if data1[i][j]!= int(y[ctr]):
+                        flag='not enc'
+                        break
+                elif ctr==n:
+                    flag='enc'
+                    break
+                
+                ctr+=1
+                
 
-        str_data =' '
-           
+        if(flag=='encrypted' or flag=='enc'):
+            #print(output)
+            y=''
+            for i in '$$$':
+                y+=format(ord(i), '08b')
+            for i in range(c-1):
+                for j in range(r-1):
+                    try:
+                        if y in output:
+                            flag=True
+                            break
+                        else:
+                            output+=unhide(data1[i][j])
+                    except:
+                        print(i,j)
+            
+            #print(output)
 
-        for i in range(0, len(output), 8): 
-              
-           
-            temp_data = int(output[i:i + 8]) 
-            decimal_data = BinaryToDecimal(temp_data) 
-            str_data = str_data + chr(decimal_data)  
+            str_data =' '
+            
 
-          
-        return str_data[(len("wearempstmemomoteam")+1):-3]
+            for i in range(0, len(output), 8): 
+                
+            
+                temp_data = int(output[i:i + 8]) 
+                decimal_data = BinaryToDecimal(temp_data) 
+                str_data = str_data + chr(decimal_data)  
+
+            
+            return str_data[(len("wearempstmemomoteam")+1):-3]
+        else:
+            return "There is no message in the image or the image has been modified"
     else:
         return "There is no message in the image or the image has been modified"
 def decrypt(img):
