@@ -3,16 +3,11 @@ import numpy
 from numpy import asarray
 from PIL import Image,ImageOps
 import os
-from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template,send_file, flash
+from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template,send_file
 from werkzeug.utils import secure_filename
 from flask_caching import Cache
 
-cache = Cache()
-def main():
-    cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 
-    with app.app_context():
-        cache.clear()
 
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -55,10 +50,14 @@ def decode1():
     image1 = Image.open(UPLOAD_FOLDER+'download.jpg')
     msg1= decrypt(image1)
     return render_template('rutwik.html',msg=msg1)
-
+cache = Cache()
+cache.init_app(app, config={'CACHE_TYPE': 'simple'})
 if __name__ == '__main__':
+   with app.app_context():
+        cache.clear() 
    app.run(debug = True)
 
 
+    
+
 app = Flask(__name__)
-cache.init_app(app)
