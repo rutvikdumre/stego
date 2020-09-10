@@ -38,6 +38,8 @@ def upload_file():
             if request.form['go']=='encrypt':
                 return redirect(url_for('image'))
             return redirect(url_for('decode1'))
+        else:
+            return render_template('index.html', error='Please upload an image file')
     return render_template('index.html')
 
 @app.route('/image', methods=['GET', 'POST'])
