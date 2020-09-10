@@ -88,7 +88,6 @@ def encode(image1,msg):
 def decode(img):
     if(img.size[0]==256 or img.size[1]==256):
         r,c=img.size[0],img.size[1]
-        #print("image size:",r,c)
         data=asarray(img)
         data1=data.tolist()
         #print(r,c)
@@ -105,11 +104,8 @@ def decode(img):
                 break
             for j in range(r-1):
                 if c<n:
-                    try:
-                        if data1[i][j]!= int(y[ctr]):
-                            flag='not enc'
-                            break
-                    except:
+                    if data1[i][j]!= int(y[ctr]):
+                        flag='not enc'
                         break
                 elif ctr==n:
                     flag='enc'
@@ -151,13 +147,13 @@ def decode(img):
         else:
             return "There is no message in the image or the image has been modified"
     else:
-        return "There is no message in the image"
+        return "There is no message in the image or the image has been modified"
 def decrypt(img):
     return decode(ImageOps.grayscale(img))
     
 
     
-'''image1 = Image.open('new1_4.png')
+'''image1 = Image.open('q.png')
 x=encode(image1, input())
 x.show()
 x.convert('RGB').save('new1.png')
