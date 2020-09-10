@@ -32,8 +32,7 @@ def upload_file():
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
-            flash('No selected file')
-            return 'No selected file'
+            return render_template('index.html', error='No image uploaded!')
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],'download.jpg'))
             if request.form['go']=='encrypt':
