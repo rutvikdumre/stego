@@ -18,7 +18,7 @@
       
     <section id="showcase" class="pb-5 pt-5">
     <div class="primary-overlay text-white">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row text-dark align-items-center">
           <div class="col-lg-8 offset-md-2 text-center" >
             <img src="{{ url_for('static', filename='logo.jpg')}}" alt="" class="img-fluid d-none d-lg-inline" style="max-height: 30rem;">
@@ -41,7 +41,11 @@
                     <button class="btn btn-outline-dark px-5" type=submit value=decrypt name="go">Decode</button>
                 </div>
             </div>
-        
+            <div>
+                <br>
+                <br>
+                <p style="color: red;text-align: center;">{{error}}</p>
+            </div>
         </form>
     
 

@@ -22,15 +22,19 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        try:
-            file = request.files['file']
+        
+        file = request.files['file']
+        if(file.filename==''):
+            return render_template('index.html', error='Please upload an image!')
+        else:
             if file and allowed_file(file.filename):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],'download.jpg'))
-                if request.form['go']=='encrypt':
-                    return redirect(url_for('image'))
-                return redirect(url_for('decode1'))
-        except:
-            flash("Upload a valid file")
+            else:
+                return render_template('index.html', error='Please upload an image!')
+            if request.form['go']=='encrypt':
+                return redirect(url_for('image'))
+            return redirect(url_for('decode1'))
+            
         
     return render_template('index.html')
 
