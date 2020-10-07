@@ -4,10 +4,12 @@ from PIL import Image,ImageOps
 
 
 def hide(pixel,msg):
-    bno='{:08b}'.format(pixel)
+    #8 bit Slicing 
+    bno='{:08b}'.format(pixel) #pixel value to 8 bit binary
     #print(bno)
-    no=bno[:-1]+msg
+    no=bno[:-1]+msg # Replacing the LSB with the data bit to be encoded
     #print(no)
+    #Converting number from binary to integer
     ans= int(no,2)
     #print(ans)
     return ans
@@ -33,51 +35,57 @@ def BinaryToDecimal(binary):
 
 def encode(image1,msg):
     mywidth = 256
-
-    wpercent = (mywidth/float(image1.size[0]))
+    #Compressing the Image such that the width is always 256 
+    #Without changing the ratio of the image (Only resolution is changed)
+    wpercent = (mywidth/float(image1.size[0])) 
     hsize = int((float(image1.size[1])*float(wpercent)))
     image1 = image1.resize((mywidth,hsize))
-    
+    #Get new image dimensions
     r,c=image1.size[0],image1.size[1]
     #print(r,c)
-    image2=ImageOps.grayscale(image1)
+    #Covert to Grayscale
+    #image2=ImageOps.grayscale(image1)
     #print(image2.size)
-    data=asarray(image2)
+    #Covert to a numpy array
+    data=asarray(image1)
+    print(data)
     #print(data)
+    #Covert to list
     data1=data.tolist()
     #print(data1)
     #image2.show()
-    
+    #Add a key to the message 
     msg = "wearempstmemomoteam"+msg+"$$$"
     x=''
     for i in msg:
-        x+=format(ord(i), '08b')
+        x+=format(ord(i), '08b') #Convert String -> Charectors -> ASCII -> 8bit binary
 
     #x= ' '.join(format(ord(i), 'b') for i in msg) 
     #print(x)
-    x=str(x)
+    x=str(x) #String of binary
     #print(x)
-    arr = data1
+    arr = data1 #Copy of image array
     #print(len(data1))
-    ctr=0
+    ctr=0 #Counter till length of data (Message)
+    #Traverse the image
     for i in range(c-1):
         for j in range(r-1):
             if ctr<len(x):
                 try:
-                    arr[i][j]=hide(data1[i][j],x[ctr])
+                    arr[i][j][0]=hide(data1[i][j][0],x[ctr]) #Hide message in the pixel
                     ctr+=1
                 except:
-                    print(i,j)
+                    print(i,j) #Exception handling for debiggung
                     break
                
 
 
     #print(arr)
-
-    image_arr=numpy.array(arr)
+    
+    image_arr=numpy.array(arr).astype(numpy.uint8)
     #print(image_arr)
 
-    image_arr2=Image.fromarray((image_arr).astype(numpy.uint8))
+    image_arr2=Image.fromarray(image_arr)
     #image_arr2=image_arr2.save('imgdemo.png')
     #image_arr2.show()
     return image_arr2
@@ -104,7 +112,7 @@ def decode(img):
                 break
             for j in range(r-1):
                 if c<n:
-                    if data1[i][j]!= int(y[ctr]):
+                    if data1[i][j][0]!= int(y[ctr]):
                         flag='not enc'
                         break
                 elif ctr==n:
@@ -126,7 +134,7 @@ def decode(img):
                             flag=True
                             break
                         else:
-                            output+=unhide(data1[i][j])
+                            output+=unhide(data1[i][j][0])
                     except:
                         print(i,j)
             
@@ -149,7 +157,7 @@ def decode(img):
     else:
         return "There is no message in the image or the image has been modified"
 def decrypt(img):
-    return decode(ImageOps.grayscale(img))
+    return decode(img)
     
 
     
