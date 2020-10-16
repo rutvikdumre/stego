@@ -3,6 +3,7 @@ from numpy import asarray
 from PIL import Image,ImageOps
 
 
+
 def hide(pixel,msg):
     #8 bit Slicing 
     bno='{:08b}'.format(pixel) #pixel value to 8 bit binary
@@ -34,6 +35,7 @@ def BinaryToDecimal(binary):
     
 
 def encode(image1,msg):
+    image1=image1.convert('RGB')
     mywidth = 256
     #Compressing the Image such that the width is always 256 
     #Without changing the ratio of the image (Only resolution is changed)
