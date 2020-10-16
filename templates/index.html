@@ -21,6 +21,7 @@
     }
     </style>
     <link rel='shortcut icon' href='static/favicon.png' type='image/png' />
+    
 
 </head>
 
@@ -34,7 +35,7 @@
             <img src="{{ url_for('static', filename='logo.jpg')}}" alt="" class="img-fluid d-none d-lg-inline" style="max-height: 20rem;">
             <img src="{{ url_for('static', filename='logo.jpg')}}" alt="" class="img-fluid d-lg-none d-sm-inline d-none" style="max-height: 15rem;">
             <img src="{{ url_for('static', filename='logo.jpg')}}" alt="" class="img-fluid d-sm-none d-inline mx-auto" style="max-height: 10rem;">
-            <p>Send invisible messages &#x1F60F</p>
+            <p>Send invisible messages</p>
         </div>
           </div>
       </div>
@@ -49,7 +50,13 @@
                         <input type="file" id="myfile" class="custom-file-input" name=file>
                         <label class="custom-file-label" for="myfile">Choose Image</label>
                     </div>
-
+                    <script>
+                      document.querySelector('.custom-file-input').addEventListener('change',function(e){
+                      var fileName = document.getElementById("myfile").files[0].name;
+                      var nextSibling = e.target.nextElementSibling
+                      nextSibling.innerText = fileName
+                    })
+                    </script>
                 <div class="d-flex justify-content-center ">
                     <div class="btn-group">
                         <button class="btn btn-dark px-5" type=submit value=encrypt name="go">Hide</button>
@@ -101,9 +108,16 @@
                 </div>
                 <div class="modal-body">
                   <h5>Send invisible messages:</h5>
-                  Upload an image and select hide<br><br>
+                  <ol>
+                    <li>Upload an image</li>
+                    <li>Press the 'Hide' button</li>
+                  </ol>
+                  <br><br>
                   <h5>Read invisible messages:</h5>
-                  Upload an image and select unhide
+                  <ol>
+                    <li>Upload an image</li>
+                    <li>Press the 'Unhide' button</li>
+                  </ol>
                 </div>
                 <div class="modal-footer">
                   <button class="btn btn-secondary" data-dismiss="modal">Close</button>
