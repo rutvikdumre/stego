@@ -120,7 +120,7 @@ def decode(img):
                             break
                     except:
                         print(i,j)
-                        break
+                        
                 elif ctr==n:
                     flag='enc'
                     break
@@ -159,7 +159,7 @@ def decode(img):
             
             return str_data[(len("wearempstmemomoteam")+1):-3].strip()
         else:
-            return "There is no message in the image or the image has been modified"
+            return "There is no message in the image or the image has been modified [Try a different image]"
     else:
         return "There is no message in the image or the image has been modified"
 def decrypt(img):
