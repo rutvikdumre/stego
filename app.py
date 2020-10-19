@@ -8,7 +8,7 @@ import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template,send_file
 from werkzeug.utils import secure_filename
 
-ctr=0
+
 
 
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'
@@ -41,9 +41,9 @@ def upload_file():
                 return redirect(url_for('image'))
             return redirect(url_for('decode1'))
         else:
-            return render_template('index.html', error='Please upload an image file', ctr=ctr)
+            return render_template('index.html', error='Please upload an image file')
     
-    return render_template('index.html', ctr=ctr)
+    return render_template('index.html')
 
 @app.route('/image', methods=['GET', 'POST'])
 def image():
