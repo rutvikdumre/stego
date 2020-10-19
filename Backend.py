@@ -114,8 +114,12 @@ def decode(img):
                 break
             for j in range(r-1):
                 if c<n:
-                    if data1[i][j][0]!= int(y[ctr]):
-                        flag='not enc'
+                    try:
+                        if data1[i][j][0]!= int(y[ctr]):
+                            flag='not enc'
+                            break
+                    except:
+                        print(i,j)
                         break
                 elif ctr==n:
                     flag='enc'
