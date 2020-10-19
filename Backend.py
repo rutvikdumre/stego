@@ -153,7 +153,7 @@ def decode(img):
                 str_data = str_data + chr(decimal_data)  
 
             
-            return str_data[(len("wearempstmemomoteam")+1):-3]
+            return str_data[(len("wearempstmemomoteam")+1):-3].strip()
         else:
             return "There is no message in the image or the image has been modified"
     else:
