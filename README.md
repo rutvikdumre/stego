@@ -1,6 +1,6 @@
 # stegoChat
 <h2>Live website: <a href='https://stegochat.herokuapp.com' target="_blank">stegochat.herokuapp.com</a></h2>
-<hr>
+
 <h5>To Run Locally:</h5>
 <hr>
 <ol>
