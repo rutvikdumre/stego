@@ -24,8 +24,7 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        global ctr
-        ctr+=1
+        
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
@@ -42,6 +41,8 @@ def upload_file():
             return redirect(url_for('decode1'))
         else:
             return render_template('index.html', error='Please upload an image file', ctr=ctr)
+    global ctr
+    ctr+=1
     return render_template('index.html', ctr=ctr)
 
 @app.route('/image', methods=['GET', 'POST'])
