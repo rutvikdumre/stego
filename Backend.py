@@ -36,12 +36,14 @@ def BinaryToDecimal(binary):
 
 def encode(image1,msg):
     image1=image1.convert('RGB')
+    
     mywidth = 256
-    #Compressing the Image such that the width is always 256 
-    #Without changing the ratio of the image (Only resolution is changed)
+    
     wpercent = (mywidth/float(image1.size[0])) 
     hsize = int((float(image1.size[1])*float(wpercent)))
     image1 = image1.resize((mywidth,hsize))
+    #Compressing the Image such that the width is always 256 
+    #Without changing the ratio of the image (Only resolution is changed)
     #Get new image dimensions
     r,c=image1.size[0],image1.size[1]
     #print(r,c)
@@ -96,7 +98,7 @@ def encode(image1,msg):
 
 
 def decode(img):
-    if(img.size[0]==256 or img.size[1]==256):
+    if(img.size[0]==256 or img.size[1]==256 or img.size[0]==257 or img.size[1]==257):
         r,c=img.size[0],img.size[1]
         data=asarray(img)
         data1=data.tolist()
@@ -115,11 +117,13 @@ def decode(img):
             for j in range(r-1):
                 if c<n:
                     try:
-                        if data1[i][j][0]!= int(y[ctr]):
+                        if data1[i][j][0]!= int(y[ctr]) and i!=0 and j!=0:
                             flag='not enc'
+                            print(i,j)
                             break
                     except:
                         print(i,j)
+                        pass
                         
                 elif ctr==n:
                     flag='enc'
@@ -159,6 +163,7 @@ def decode(img):
             
             return str_data[(len("wearempstmemomoteam")+1):-3].strip()
         else:
+            print(flag)
             return "There is no message in the image or the image has been modified [Try a different image]"
     else:
         return "There is no message in the image or the image has been modified"
@@ -170,6 +175,6 @@ def decrypt(img):
 '''image1 = Image.open('q.png')
 x=encode(image1, input())
 x.show()
-x.convert('RGB').save('new1.png')
-img=Image.open('new1.png')
-print(decrypt(img))'''
+x.convert('RGB').save('new1.png')'''
+#img=Image.open('C:/Users/rutvik/Desktop/PFE/new1 (25).png')
+#print(decrypt(img))
